@@ -8,7 +8,11 @@ const symbolMap = (() => {
 })();
 
 const playerFactory = (id) => {
-    return { id };
+    const getName = () => {
+        const inputField = document.querySelector(`#player${(id == 'x') ? "One" : "Two"}Name`);
+        return (inputField.value == "") ? `Player ${(id == 'x') ? "One" : "Two"}` : inputField.value;
+    };
+    return { id, getName };
 }
 
 const gameboard = (() => {
@@ -26,6 +30,15 @@ const gameboard = (() => {
     ;
     return { board, playerOne, playerTwo, placeSymbol };
 })();
+
+const startButton = document.querySelector("#start");
+startButton.addEventListener("click", (event) => {
+    const playerOneNameField = document.querySelector("#playerOneName");
+    const playerTwoNameField = document.querySelector("#playerTwoName");
+    playerOneNameField.readOnly = true;
+    playerTwoNameField.readOnly = true;
+    startButton.style.visibility = "hidden";
+});
 
 const displayController = (() => {
     const filled = new Set();
@@ -74,14 +87,15 @@ const displayController = (() => {
             }
         }
         if (gameboard.board[0][0] != '.' && gameboard.board[0][0] == gameboard.board[1][1] && gameboard.board[0][0] == gameboard.board[2][2]) {
-            alert(`${(gameboard.board[0][0] == 'x') ? "Player 1" : "Player 2"} wins!`);
+            alert(`${(gameboard.board[0][0] == 'x') ? gameboard.playerOne.getName() : gameboard.playerTwo.getName()} wins!`);
         }
         if (gameboard.board[0][2] != '.' && gameboard.board[0][2] == gameboard.board[1][1] && gameboard.board[0][2] == gameboard.board[2][0]) {
-            alert(`${(gameboard.board[0][2] == 'x') ? "Player 1" : "Player 2"} wins!`);
+            alert(`${(gameboard.board[0][2] == 'x') ? gameboard.playerOne.getName() : gameboard.playerTwo.getName()} wins!`);
         }
     }
     return { updateBoard };
 })();
+
 const cells = document.querySelectorAll(".cell");
 cells.forEach(cell => {
     cell.addEventListener('click', (event) => {
