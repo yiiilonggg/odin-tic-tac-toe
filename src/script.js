@@ -44,6 +44,41 @@ const displayController = (() => {
                 }
             }
         }
+        winCheck();
+    }
+    const winCheck = () => {
+        for (let r = 0; r < 3; r++) {
+            let curr = gameboard.board[r][0];
+            let flag = true;
+            if (curr == '.') continue;
+            for (let c = 0; c < 3; c++) {
+                if (gameboard.board[r][c] != curr) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                alert(`${(curr == 'x') ? "Player 1" : "Player 2"} wins!`);
+            }
+        }
+        for (let c = 0; c < 3; c++) {
+            let curr = gameboard.board[0][c];
+            let flag = true;
+            if (curr == '.') continue;
+            for (let r = 0; r < 3; r++) {
+                if (gameboard.board[r][c] != curr) {
+                    flag = false;
+                }
+            }
+            if (flag) {
+                alert(`${(curr == 'x') ? "Player 1" : "Player 2"} wins!`);
+            }
+        }
+        if (gameboard.board[0][0] != '.' && gameboard.board[0][0] == gameboard.board[1][1] && gameboard.board[0][0] == gameboard.board[2][2]) {
+            alert(`${(gameboard.board[0][0] == 'x') ? "Player 1" : "Player 2"} wins!`);
+        }
+        if (gameboard.board[0][2] != '.' && gameboard.board[0][2] == gameboard.board[1][1] && gameboard.board[0][2] == gameboard.board[2][0]) {
+            alert(`${(gameboard.board[0][2] == 'x') ? "Player 1" : "Player 2"} wins!`);
+        }
     }
     return { updateBoard };
 })();
